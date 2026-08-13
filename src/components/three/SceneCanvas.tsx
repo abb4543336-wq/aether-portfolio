@@ -312,12 +312,14 @@ function CameraRig() {
   const vec = useRef(new THREE.Vector3(0, 0.4, 9));
   useFrame(({ camera }, dt) => {
     const p = scrollState.progress;
-    let a = CAM_KEYS[0];
-    let b = CAM_KEYS[CAM_KEYS.length - 1];
+    let a = CAM_KEYS[0]!;
+    let b = CAM_KEYS[CAM_KEYS.length - 1]!;
     for (let i = 0; i < CAM_KEYS.length - 1; i++) {
-      if (p >= CAM_KEYS[i].p && p <= CAM_KEYS[i + 1].p) {
-        a = CAM_KEYS[i];
-        b = CAM_KEYS[i + 1];
+      const cur = CAM_KEYS[i]!;
+      const next = CAM_KEYS[i + 1]!;
+      if (p >= cur.p && p <= next.p) {
+        a = cur;
+        b = next;
         break;
       }
     }
@@ -327,6 +329,7 @@ function CameraRig() {
       a.pos[1] + (b.pos[1] - a.pos[1]) * local,
       a.pos[2] + (b.pos[2] - a.pos[2]) * local,
     );
+
     const d = Math.min(dt, 0.05);
     camera.position.x = damp(camera.position.x, vec.current.x, 3, d);
     camera.position.y = damp(camera.position.y, vec.current.y, 3, d);
