@@ -301,11 +301,11 @@ function GrowthStage() {
 
 const CAM_KEYS: { p: number; pos: [number, number, number] }[] = [
   { p: 0, pos: [0, 0.4, 9] },
-  { p: 0.18, pos: [1.6, 1.2, 7.4] },
-  { p: 0.4, pos: [0, 0.6, 8.2] },
-  { p: 0.6, pos: [-1.4, 0.8, 8.6] },
-  { p: 0.8, pos: [0.8, 0.5, 8.4] },
-  { p: 1, pos: [0, 0.3, 8.8] },
+  { p: 0.18, pos: [1.2, 1.1, 10.5] },
+  { p: 0.4, pos: [0, 0.6, 11] },
+  { p: 0.6, pos: [-1.2, 0.8, 11.5] },
+  { p: 0.8, pos: [0.8, 0.5, 11] },
+  { p: 1, pos: [0, 0.3, 10.5] },
 ];
 
 function CameraRig() {
@@ -382,7 +382,7 @@ export default function SceneCanvas() {
       camera={{ position: [0, 0.4, 9], fov: 45 }}
     >
       <color attach="background" args={["#0a0f1d"]} />
-      <fog attach="fog" args={["#0a0f1d", 9, 22]} />
+      <fog attach="fog" args={["#0a0f1d", 12, 30]} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[4, 6, 6]} intensity={1.1} />
       <pointLight position={[-5, 2, 4]} color={VIOLET} intensity={40} distance={20} />
