@@ -6,7 +6,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
     <footer className="relative z-10 mt-10">
       {/* CTA bar */}
       <div
-        className="mx-5 rounded-3xl px-8 py-10 text-center sm:px-12 lg:mx-14"
+        className="mx-4 rounded-3xl px-6 py-10 text-center sm:mx-5 sm:px-12 lg:mx-14"
         style={{
           background: "linear-gradient(135deg, rgba(220,38,38,0.15), rgba(153,27,27,0.1))",
           border: "1px solid rgba(220,38,38,0.25)",
@@ -34,13 +34,13 @@ export function Footer({ onContact }: { onContact: () => void }) {
 
       {/* Main footer grid */}
       <div
-        className="px-5 pt-16 sm:px-8 lg:px-14"
+        className="px-4 pt-14 sm:px-8 lg:px-14"
         style={{ background: "rgba(8,8,8,0.97)", borderTop: "1px solid rgba(220,38,38,0.12)" }}
       >
-        <div className="mx-auto max-w-6xl grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto max-w-6xl grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
 
           {/* Brand */}
-          <div>
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
             <Link to="/" className="inline-flex items-center mb-4 transition-transform hover:scale-[1.02]">
               <img
                 src="/lateralworx_logo.png"
@@ -52,10 +52,10 @@ export function Footer({ onContact }: { onContact: () => void }) {
                 }}
               />
             </Link>
-            <p className="mt-3 text-sm leading-relaxed text-white/45 max-w-[220px]">
+            <p className="text-sm leading-relaxed text-white/45 max-w-[240px]">
               Transforming Businesses Through Innovative IT Solutions
             </p>
-            <div className="mt-5 flex items-start gap-2 text-sm text-white/40">
+            <div className="mt-5 flex items-start gap-2 text-sm text-white/40 justify-center sm:justify-start">
               <MapPin className="mt-0.5 size-3.5 shrink-0 text-red-500/70" />
               <span className="leading-relaxed">
                 Suite 405 Beaumont Plaza,<br />
@@ -66,7 +66,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="flex flex-col items-center sm:items-start">
             <h3 className="mb-4 font-display text-xs font-semibold uppercase tracking-[0.2em] text-white/60">Quick Links</h3>
             <ul className="space-y-2.5">
               {[
@@ -100,7 +100,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
           </div>
 
           {/* Services */}
-          <div>
+          <div className="flex flex-col items-center sm:items-start">
             <h3 className="mb-4 font-display text-xs font-semibold uppercase tracking-[0.2em] text-white/60">Services</h3>
             <ul className="space-y-2.5">
               {[
@@ -128,7 +128,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
           </div>
 
           {/* Get in Touch */}
-          <div>
+          <div className="flex flex-col items-center sm:items-start">
             <h3 className="mb-4 font-display text-xs font-semibold uppercase tracking-[0.2em] text-white/60">Get in Touch</h3>
             <ul className="space-y-4">
               <li>
@@ -152,9 +152,9 @@ export function Footer({ onContact }: { onContact: () => void }) {
         </div>
 
         {/* Bottom bar */}
-        <div className="mx-auto mt-12 max-w-6xl flex flex-col items-center justify-between gap-3 border-t border-white/5 py-6 text-xs text-white/25 sm:flex-row">
-          <span>© {new Date().getFullYear()} LateralWorx · All rights reserved</span>
-          <span>Cloud · Security · Managed IT · Consulting</span>
+        <div className="mx-auto mt-12 max-w-6xl flex flex-col items-center justify-between gap-2 border-t border-white/5 py-6 text-xs text-white/25 sm:flex-row">
+          <span className="text-center sm:text-left">© {new Date().getFullYear()} LateralWorx · All rights reserved</span>
+          <span className="text-center sm:text-right">Cloud · Security · Managed IT · Consulting</span>
         </div>
       </div>
     </footer>
