@@ -50,8 +50,20 @@ function ContactPage() {
             boxShadow: "0 4px 40px rgba(220,38,38,0.08)",
           }}
         >
-          <Link to="/" className="flex items-center gap-2.5 shrink-0">
-            <img src="/lateralworx_logo.png" alt="LateralWorx Logo" className="h-8 w-auto object-contain" />
+          <Link
+            to="/"
+            className="flex shrink-0 items-center transition-transform hover:scale-[1.02]"
+            aria-label="LateralWorx Home"
+          >
+            <img
+              src="/lateralworx_logo.png"
+              alt="LateralWorx Logo"
+              className="h-10 w-auto object-contain"
+              style={{
+                mixBlendMode: "screen",
+                filter: "drop-shadow(0 0 6px rgba(220,38,38,0.5)) brightness(1.1) contrast(1.1)",
+              }}
+            />
           </Link>
           <nav className="hidden items-center gap-7 md:flex">
             <Link to="/" className="text-sm font-medium text-white/70 transition-colors hover:text-white">Home</Link>

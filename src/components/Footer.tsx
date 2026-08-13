@@ -41,8 +41,16 @@ export function Footer({ onContact }: { onContact: () => void }) {
 
           {/* Brand */}
           <div>
-            <Link to="/" className="inline-flex items-center mb-4">
-              <img src="/lateralworx_logo.png" alt="LateralWorx Logo" className="h-9 w-auto object-contain" />
+            <Link to="/" className="inline-flex items-center mb-4 transition-transform hover:scale-[1.02]">
+              <img
+                src="/lateralworx_logo.png"
+                alt="LateralWorx Logo"
+                className="h-10 w-auto object-contain"
+                style={{
+                  mixBlendMode: "screen",
+                  filter: "drop-shadow(0 0 6px rgba(220,38,38,0.5)) brightness(1.1) contrast(1.1)",
+                }}
+              />
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-white/45 max-w-[220px]">
               Transforming Businesses Through Innovative IT Solutions

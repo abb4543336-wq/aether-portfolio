@@ -77,7 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LateralWorx — Transforming Businesses Through Innovative IT Solutions" },
+      { title: "LateralWorx" },
       { name: "description", content: "Your trusted partner for comprehensive IT services, cloud solutions, and digital transformation." },
       { name: "author", content: "LateralWorx" },
       { property: "og:title", content: "LateralWorx — IT & Cloud Solutions" },

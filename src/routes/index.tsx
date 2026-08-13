@@ -29,7 +29,7 @@ import { Footer } from "@/components/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "LateralWorx — Transforming Businesses Through Innovative IT Solutions" },
+      { title: "LateralWorx" },
       {
         name: "description",
         content:
@@ -171,8 +171,20 @@ function Navbar({ onContact }: { onContact: () => void }) {
           boxShadow: "0 4px 40px rgba(220,38,38,0.08)",
         }}
       >
-        <Link to="/" className="flex shrink-0 items-center justify-center rounded-xl bg-white/95 px-4 py-2.5 shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-transform hover:scale-[1.02]">
-          <img src="/lateralworx_logo.png" alt="LateralWorx Logo" className="h-7 w-auto object-contain" />
+        <Link
+          to="/"
+          className="flex shrink-0 items-center transition-transform hover:scale-[1.02]"
+          aria-label="LateralWorx Home"
+        >
+          <img
+            src="/lateralworx_logo.png"
+            alt="LateralWorx Logo"
+            className="h-10 w-auto object-contain"
+            style={{
+              mixBlendMode: "screen",
+              filter: "drop-shadow(0 0 6px rgba(220,38,38,0.5)) brightness(1.1) contrast(1.1)",
+            }}
+          />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
