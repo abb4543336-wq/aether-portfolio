@@ -24,8 +24,8 @@ function Stage({
     const g = group.current;
     if (!g) return;
     const p = scrollState.progress;
-    const inW = rangeProgress(p, start - 0.09, start + 0.03);
-    const outW = 1 - rangeProgress(p, end - 0.03, end + 0.09);
+    const inW = rangeProgress(p, start - 0.045, start + 0.015);
+    const outW = 1 - rangeProgress(p, end - 0.015, end + 0.045);
     const target = Math.min(inW, outW);
     weight.current = damp(weight.current, target, 6, Math.min(dt, 0.05));
     const w = weight.current;
@@ -339,6 +339,34 @@ function CameraRig() {
   return null;
 }
 
+/** Nudges the scene away from the side the copy sits on. */
+const SHIFTS: { p: number; x: number }[] = [
+  { p: 0.1, x: 2.4 },
+  { p: 0.29, x: -2.4 },
+  { p: 0.49, x: 2.4 },
+  { p: 0.69, x: -2.4 },
+  { p: 0.9, x: 2.4 },
+];
+
+function SceneShift({ children }: { children: ReactNode }) {
+  const g = useRef<THREE.Group>(null);
+  useFrame((state, dt) => {
+    if (!g.current) return;
+    const wide = state.size.width >= 1024;
+    let target = SHIFTS[0]!.x;
+    let best = Infinity;
+    for (const k of SHIFTS) {
+      const d = Math.abs(scrollState.progress - k.p);
+      if (d < best) {
+        best = d;
+        target = k.x;
+      }
+    }
+    g.current.position.x = damp(g.current.position.x, wide ? target : 0, 2.2, Math.min(dt, 0.05));
+  });
+  return <group ref={g}>{children}</group>;
+}
+
 function ScrollTracker() {
   useFrame(() => {
     scrollState.progress = damp(scrollState.progress, readScrollProgress(), 1, 0.12);
@@ -363,6 +391,7 @@ export default function SceneCanvas() {
       <ScrollTracker />
       <CameraRig />
 
+      <SceneShift>
       <Stage start={0} end={0.18}>
         <DataCenterStage />
       </Stage>
@@ -378,6 +407,7 @@ export default function SceneCanvas() {
       <Stage start={0.8} end={1.01}>
         <GrowthStage />
       </Stage>
+      </SceneShift>
     </Canvas>
   );
 }
