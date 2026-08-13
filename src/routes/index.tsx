@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
@@ -11,7 +11,10 @@ import {
   HardDriveDownload,
   Headphones,
   Mail,
-  Network,
+  MapPin,
+  ChevronDown,
+  Menu,
+  X,
   ScanFace,
   ServerCog,
   ShieldCheck,
@@ -21,21 +24,22 @@ import {
 import { SceneBackground } from "@/components/SceneBackground";
 import { ServiceSection, type Service } from "@/components/ServiceSection";
 import { ContactModal } from "@/components/ContactModal";
+import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NexLayer — IT & Cloud Solutions for Modern Enterprises" },
+      { title: "LateralWorx — Transforming Businesses Through Innovative IT Solutions" },
       {
         name: "description",
         content:
-          "Cloud migration, managed IT, cybersecurity, ERP and network solutions delivered by a 24/7 enterprise engineering team.",
+          "Your trusted partner for comprehensive IT services, cloud solutions, and digital transformation.",
       },
-      { property: "og:title", content: "NexLayer — IT & Cloud Solutions" },
+      { property: "og:title", content: "LateralWorx — IT & Cloud Solutions" },
       {
         property: "og:description",
         content:
-          "Cloud modernization, cybersecurity, ERP, and managed IT operations engineered for uptime.",
+          "Cloud migration, cybersecurity, ERP, and managed IT operations engineered for uptime.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -130,13 +134,188 @@ const consulting: Service[] = [
   },
 ];
 
-const NAV = [
-  { href: "#cloud", label: "Cloud" },
-  { href: "#applications", label: "Applications" },
-  { href: "#security", label: "Security" },
-  { href: "#managed", label: "Managed IT" },
-  { href: "#consulting", label: "Consulting" },
+const SERVICES_DROPDOWN = [
+  { href: "/services/cloud-infrastructure", label: "Cloud & Infrastructure" },
+  { href: "/services/business-applications", label: "Business Applications" },
+  { href: "/services/security-data", label: "Security & Data Management" },
+  { href: "/services/managed-it", label: "Managed IT Services" },
+  { href: "/services/consulting", label: "Consulting & Digital" },
 ];
+
+function Navbar({ onContact }: { onContact: () => void }) {
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setServicesOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const navLinkClass = "text-sm font-medium text-white/70 transition-colors hover:text-white";
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div
+        className="mx-auto mt-4 flex w-[min(94%,1200px)] items-center justify-between rounded-2xl px-5 py-3"
+        style={{
+          background: "rgba(10,10,10,0.85)",
+          backdropFilter: "blur(20px) saturate(160%)",
+          border: "1px solid rgba(220,38,38,0.22)",
+          boxShadow: "0 4px 40px rgba(220,38,38,0.08)",
+        }}
+      >
+        <Link to="/" className="flex shrink-0 items-center justify-center rounded-xl bg-white/95 px-4 py-2.5 shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-transform hover:scale-[1.02]">
+          <img src="/lateralworx_logo.png" alt="LateralWorx Logo" className="h-7 w-auto object-contain" />
+        </Link>
+
+        <nav className="hidden items-center gap-7 md:flex">
+          <a href="#home" className={navLinkClass}>Home</a>
+
+          <div className="relative" ref={dropdownRef}>
+            <button
+              id="services-dropdown-btn"
+              className={`${navLinkClass} flex items-center gap-1`}
+              onClick={() => setServicesOpen((v) => !v)}
+              aria-expanded={servicesOpen}
+              aria-haspopup="true"
+            >
+              Services
+              <ChevronDown className={`size-3.5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`} />
+            </button>
+            <AnimatePresence>
+              {servicesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                  transition={{ duration: 0.18 }}
+                  className="absolute left-0 top-full mt-2 overflow-hidden rounded-xl py-1.5"
+                  style={{
+                    background: "rgba(13,13,13,0.97)",
+                    border: "1px solid rgba(220,38,38,0.25)",
+                    boxShadow: "0 16px 50px rgba(220,38,38,0.15)",
+                    minWidth: "220px",
+                  }}
+                  role="menu"
+                >
+                  {SERVICES_DROPDOWN.map((item) => (
+                    item.href.startsWith("/") ? (
+                      <Link
+                        key={item.href}
+                        to={item.href}
+                        role="menuitem"
+                        className="block px-4 py-2.5 text-sm text-white/70 transition-all hover:bg-red-600/10 hover:text-white"
+                        onClick={() => setServicesOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <a
+                        key={item.href}
+                        href={item.href}
+                        role="menuitem"
+                        className="block px-4 py-2.5 text-sm text-white/70 transition-all hover:bg-red-600/10 hover:text-white"
+                        onClick={() => setServicesOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    )
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <Link to="/about" className={navLinkClass}>About</Link>
+          <Link to="/contact" className={navLinkClass}>Contact</Link>
+        </nav>
+
+        <Link
+          to="/contact"
+          id="nav-talk-btn"
+          className="hidden rounded-full px-5 py-2 text-sm font-semibold text-white transition-all hover:brightness-110 md:block"
+          style={{
+            background: "linear-gradient(135deg, #dc2626, #991b1b)",
+            boxShadow: "0 0 0 1px rgba(220,38,38,0.3), 0 8px 24px rgba(220,38,38,0.25)",
+          }}
+        >
+          Talk to us
+        </Link>
+
+        <button
+          id="mobile-menu-btn"
+          className="flex items-center justify-center rounded-lg p-2 text-white/70 hover:text-white md:hidden"
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="mx-auto mt-2 w-[min(94%,1200px)] overflow-hidden rounded-xl px-4 py-3 md:hidden"
+            style={{
+              background: "rgba(10,10,10,0.97)",
+              border: "1px solid rgba(220,38,38,0.22)",
+              backdropFilter: "blur(20px)",
+            }}
+          >
+            <a href="#home" className="block py-2.5 text-sm text-white/80 hover:text-white" onClick={() => setMobileOpen(false)}>Home</a>
+            <button className="flex w-full items-center justify-between py-2.5 text-sm text-white/80 hover:text-white" onClick={() => setMobileServicesOpen((v) => !v)}>
+              Services
+              <ChevronDown className={`size-3.5 transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`} />
+            </button>
+            <AnimatePresence>
+              {mobileServicesOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden pl-4"
+                >
+                  {SERVICES_DROPDOWN.map((item) => (
+                    item.href.startsWith("/") ? (
+                      <Link key={item.href} to={item.href} className="block py-2 text-sm text-white/60 hover:text-white" onClick={() => setMobileOpen(false)}>
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <a key={item.href} href={item.href} className="block py-2 text-sm text-white/60 hover:text-white" onClick={() => setMobileOpen(false)}>
+                        {item.label}
+                      </a>
+                    )
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <Link to="/about" className="block py-2.5 text-sm text-white/80 hover:text-white" onClick={() => setMobileOpen(false)}>About</Link>
+            <Link
+              to="/contact"
+              className="mt-1 block text-center w-full rounded-full py-2.5 text-sm font-semibold text-white"
+              style={{ background: "linear-gradient(135deg, #dc2626, #991b1b)" }}
+              onClick={() => setMobileOpen(false)}
+            >
+              Contact Us
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
 
 function Home() {
   const [open, setOpen] = useState(false);
@@ -144,151 +323,126 @@ function Home() {
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background">
       <SceneBackground />
-
-      <header className="fixed inset-x-0 top-0 z-40">
-        <div className="glass mx-auto mt-4 flex w-[min(92%,1100px)] items-center justify-between rounded-full px-5 py-3">
-          <a href="#cloud" className="flex items-center gap-2 font-display font-semibold">
-            <Network className="size-5 text-primary" />
-            NexLayer
-          </a>
-          <nav className="hidden items-center gap-7 md:flex">
-            {NAV.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-primary"
-              >
-                {n.label}
-              </a>
-            ))}
-          </nav>
-          <button
-            onClick={() => setOpen(true)}
-            className="rounded-full border border-primary/40 px-4 py-1.5 text-sm text-primary transition-colors hover:bg-primary/10"
-          >
-            Talk to us
-          </button>
-        </div>
-      </header>
+      <Navbar onContact={() => setOpen(true)} />
 
       {/* Hero */}
-      <section
-        id="cloud"
-        className="relative z-10 flex min-h-screen items-center px-5 pt-28 sm:px-8 lg:px-14"
-      >
-        <div className="mx-auto w-full max-w-6xl lg:ml-0 lg:max-w-2xl">
+      <section id="home" className="relative z-10 flex min-h-screen items-center px-5 pt-28 sm:px-8 lg:px-14">
+        <div className="mx-auto w-full max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-4xl"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-primary">
-              <Database className="size-3" /> Enterprise IT & Cloud
+            <span
+              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.28em] text-white/90"
+              style={{ background: "rgba(220,38,38,0.12)", border: "1px solid rgba(220,38,38,0.35)" }}
+            >
+              <Database className="size-3 text-red-500" />
+              Trusted IT Partner · Est. 2024
             </span>
-            <h1 className="mt-6 text-4xl font-semibold leading-[1.05] sm:text-6xl">
-              <span className="text-gradient">Cloud & Infrastructure</span>
+
+            <h1 className="mt-6 text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+              <span className="text-gradient">Transforming Businesses</span>
               <br />
-              Modernization
+              Through Innovative IT Solutions
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Comprehensive cloud migration, infrastructure management, and network solutions.
+
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/60">
+              Your trusted partner for comprehensive IT services, cloud solutions, and digital transformation
             </p>
+
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/45">
+              We provide cutting-edge technology solutions to help businesses streamline operations, enhance
+              productivity, and achieve their strategic goals. From cloud migration to cybersecurity, ERP
+              implementation to managed IT services, we deliver excellence at every step.
+            </p>
+
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <button
-                onClick={() => setOpen(true)}
-                className="group flex items-center gap-2 rounded-full px-6 py-3 font-display text-sm font-semibold text-primary-foreground"
-                style={{ background: "var(--gradient-neon)", boxShadow: "var(--shadow-neon)" }}
+              <Link
+                to="/contact"
+                id="hero-cta-btn"
+                className="group flex items-center gap-2 rounded-full px-7 py-3.5 font-display text-sm font-semibold text-white transition-all hover:brightness-110"
+                style={{
+                  background: "linear-gradient(135deg, #dc2626, #991b1b)",
+                  boxShadow: "0 0 0 1px rgba(220,38,38,0.35), 0 20px 50px rgba(220,38,38,0.3)",
+                }}
               >
-                Schedule a Consultation
+                Get Started Today
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-              </button>
-              <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-                Scroll to plug in
-              </span>
+              </Link>
+              <a
+                href="#cloud"
+                className="flex items-center gap-2 rounded-full border border-white/10 px-7 py-3.5 text-sm font-medium text-white/70 transition-all hover:border-red-500/40 hover:text-white"
+              >
+                Explore Services
+              </a>
             </div>
           </motion.div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-3">
-            {cloud.map((s, i) => (
+          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { label: "Cloud & Infrastructure", icon: Cloud, href: "/services/cloud-infrastructure" },
+              { label: "Business Applications", icon: Workflow, href: "/services/business-applications" },
+              { label: "Security & Data", icon: ShieldCheck, href: "/services/security-data" },
+              { label: "Managed IT Services", icon: Headphones, href: "/services/managed-it" },
+            ].map((item, i) => (
               <motion.div
-                key={s.title}
+                key={item.label}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.25 + i * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="glass rounded-xl p-4"
+                transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="glass group flex flex-col gap-3 rounded-xl p-5 transition-all hover:border-red-500/30"
+                style={{ textDecoration: "none" }}
               >
-                <s.icon className="size-5 text-primary" />
-                <h3 className="mt-3 font-display text-sm font-semibold">{s.title}</h3>
-                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                  {s.description}
-                </p>
+                <div className="flex size-10 items-center justify-center rounded-lg" style={{ background: "rgba(220,38,38,0.12)" }}>
+                  <item.icon className="size-5 text-red-500" />
+                </div>
+                <Link to={item.href} className="font-display text-sm font-semibold text-white/90 stretched-link">{item.label}</Link>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <ServiceSection
-        id="applications"
-        index="02"
-        label="Business Applications"
-        heading="Enterprise Business Applications"
-        subtext="Core systems that run operations, integrated cleanly with the platforms you already use."
-        services={apps}
-        align="right"
-      />
-      <ServiceSection
-        id="security"
-        index="03"
-        label="Security & Data"
-        heading="Cyber Security & Data Protection"
-        subtext="Defense in depth across identity, endpoint, and network — with recovery you have actually tested."
-        services={security}
-      />
-      <ServiceSection
-        id="managed"
-        index="04"
-        label="Managed Operations"
-        heading="24/7 Managed IT & Operations"
-        subtext="An always-on engineering team keeping your environment patched, monitored, and answered."
-        services={managed}
-        align="right"
-      />
-      <ServiceSection
-        id="consulting"
-        index="05"
-        label="Consulting & Digital"
-        heading="Strategic Consulting & Growth"
-        subtext="From architecture roadmaps to the digital surface your customers actually touch."
-        services={consulting}
-      />
+      <ServiceSection id="cloud" index="01" label="Cloud & Infrastructure" heading="Cloud & Infrastructure Modernization" subtext="Comprehensive cloud migration, infrastructure management, and network solutions engineered for reliability and scale." services={cloud} />
+      <ServiceSection id="applications" index="02" label="Business Applications" heading="Enterprise Business Applications" subtext="Core systems that run operations, integrated cleanly with the platforms you already use." services={apps} align="right" />
+      <ServiceSection id="security" index="03" label="Security & Data Management" heading="Cyber Security & Data Protection" subtext="Defense in depth across identity, endpoint, and network — with recovery you have actually tested." services={security} />
+      <ServiceSection id="managed" index="04" label="Managed IT Services" heading="24/7 Managed IT & Operations" subtext="An always-on engineering team keeping your environment patched, monitored, and answered." services={managed} align="right" />
+      <ServiceSection id="consulting" index="05" label="Consulting & Digital Services" heading="Strategic Consulting & Growth" subtext="From architecture roadmaps to the digital surface your customers actually touch." services={consulting} />
 
-      {/* Footer CTA */}
-      <footer className="relative z-10 px-5 pb-14 pt-10 sm:px-8 lg:px-14">
-        <div className="glass mx-auto max-w-5xl rounded-3xl p-10 text-center">
-          <h2 className="text-3xl font-semibold sm:text-4xl">
-            Ready to modernize your <span className="text-gradient">infrastructure</span>?
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
-            Book a 30-minute session with our architects and leave with a concrete migration or
-            security roadmap.
-          </p>
-          <button
-            onClick={() => setOpen(true)}
-            className="mt-8 inline-flex items-center gap-2 rounded-full px-8 py-4 font-display text-base font-semibold text-primary-foreground"
-            style={{ background: "var(--gradient-neon)", boxShadow: "var(--shadow-neon)" }}
+      {/* About */}
+      <section id="about" className="relative z-10 flex min-h-[60vh] items-center px-5 py-24 sm:px-8 lg:px-14">
+        <div className="mx-auto w-full max-w-4xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            Schedule a Consultation
-            <ArrowRight className="size-4" />
-          </button>
-          <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
-            <span>© {new Date().getFullYear()} NexLayer IT & Cloud Solutions</span>
-            <span>Cloud · Security · Managed IT · Consulting</span>
-          </div>
+            <span
+              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.28em] text-white/90"
+              style={{ background: "rgba(220,38,38,0.12)", border: "1px solid rgba(220,38,38,0.35)" }}
+            >
+              About LateralWorx
+            </span>
+            <h2 className="mt-5 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
+              Your Trusted Technology Partner
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/55">
+              LateralWorx is a full-service IT company dedicated to helping businesses leverage technology as
+              a competitive advantage. Our team of experienced engineers and consultants brings enterprise-grade
+              expertise to organizations of every size.
+            </p>
+            <div className="mt-8">
+              <Link to="/about" className="inline-flex items-center gap-2 rounded-full border border-white/10 px-7 py-3 text-sm font-medium text-white/70 transition-all hover:border-red-500/40 hover:text-white">Read Full Story</Link>
+            </div>
+          </motion.div>
         </div>
-      </footer>
+      </section>
 
+      <Footer onContact={() => setOpen(true)} />
       <ContactModal open={open} onClose={() => setOpen(false)} />
     </main>
   );

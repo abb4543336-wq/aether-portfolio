@@ -10,33 +10,130 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ServicesBusinessApplicationsRouteImport } from './routes/services/business-applications'
+import { Route as ServicesCloudInfrastructureRouteImport } from './routes/services/cloud-infrastructure'
+import { Route as ServicesConsultingRouteImport } from './routes/services/consulting'
+import { Route as ServicesManagedItRouteImport } from './routes/services/managed-it'
+import { Route as ServicesSecurityDataRouteImport } from './routes/services/security-data'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesBusinessApplicationsRoute =
+  ServicesBusinessApplicationsRouteImport.update({
+    id: '/services/business-applications',
+    path: '/services/business-applications',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ServicesCloudInfrastructureRoute =
+  ServicesCloudInfrastructureRouteImport.update({
+    id: '/services/cloud-infrastructure',
+    path: '/services/cloud-infrastructure',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ServicesConsultingRoute = ServicesConsultingRouteImport.update({
+  id: '/services/consulting',
+  path: '/services/consulting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesManagedItRoute = ServicesManagedItRouteImport.update({
+  id: '/services/managed-it',
+  path: '/services/managed-it',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSecurityDataRoute = ServicesSecurityDataRouteImport.update({
+  id: '/services/security-data',
+  path: '/services/security-data',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/services/business-applications': typeof ServicesBusinessApplicationsRoute
+  '/services/cloud-infrastructure': typeof ServicesCloudInfrastructureRoute
+  '/services/consulting': typeof ServicesConsultingRoute
+  '/services/managed-it': typeof ServicesManagedItRoute
+  '/services/security-data': typeof ServicesSecurityDataRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/services/business-applications': typeof ServicesBusinessApplicationsRoute
+  '/services/cloud-infrastructure': typeof ServicesCloudInfrastructureRoute
+  '/services/consulting': typeof ServicesConsultingRoute
+  '/services/managed-it': typeof ServicesManagedItRoute
+  '/services/security-data': typeof ServicesSecurityDataRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/services/business-applications': typeof ServicesBusinessApplicationsRoute
+  '/services/cloud-infrastructure': typeof ServicesCloudInfrastructureRoute
+  '/services/consulting': typeof ServicesConsultingRoute
+  '/services/managed-it': typeof ServicesManagedItRoute
+  '/services/security-data': typeof ServicesSecurityDataRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/services/business-applications'
+    | '/services/cloud-infrastructure'
+    | '/services/consulting'
+    | '/services/managed-it'
+    | '/services/security-data'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/services/business-applications'
+    | '/services/cloud-infrastructure'
+    | '/services/consulting'
+    | '/services/managed-it'
+    | '/services/security-data'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/services/business-applications'
+    | '/services/cloud-infrastructure'
+    | '/services/consulting'
+    | '/services/managed-it'
+    | '/services/security-data'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  ServicesBusinessApplicationsRoute: typeof ServicesBusinessApplicationsRoute
+  ServicesCloudInfrastructureRoute: typeof ServicesCloudInfrastructureRoute
+  ServicesConsultingRoute: typeof ServicesConsultingRoute
+  ServicesManagedItRoute: typeof ServicesManagedItRoute
+  ServicesSecurityDataRoute: typeof ServicesSecurityDataRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +145,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/business-applications': {
+      id: '/services/business-applications'
+      path: '/services/business-applications'
+      fullPath: '/services/business-applications'
+      preLoaderRoute: typeof ServicesBusinessApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/cloud-infrastructure': {
+      id: '/services/cloud-infrastructure'
+      path: '/services/cloud-infrastructure'
+      fullPath: '/services/cloud-infrastructure'
+      preLoaderRoute: typeof ServicesCloudInfrastructureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/consulting': {
+      id: '/services/consulting'
+      path: '/services/consulting'
+      fullPath: '/services/consulting'
+      preLoaderRoute: typeof ServicesConsultingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/managed-it': {
+      id: '/services/managed-it'
+      path: '/services/managed-it'
+      fullPath: '/services/managed-it'
+      preLoaderRoute: typeof ServicesManagedItRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/security-data': {
+      id: '/services/security-data'
+      path: '/services/security-data'
+      fullPath: '/services/security-data'
+      preLoaderRoute: typeof ServicesSecurityDataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  ServicesBusinessApplicationsRoute: ServicesBusinessApplicationsRoute,
+  ServicesCloudInfrastructureRoute: ServicesCloudInfrastructureRoute,
+  ServicesConsultingRoute: ServicesConsultingRoute,
+  ServicesManagedItRoute: ServicesManagedItRoute,
+  ServicesSecurityDataRoute: ServicesSecurityDataRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

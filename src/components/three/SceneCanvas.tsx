@@ -4,8 +4,8 @@ import { useMemo, useRef, type ReactNode } from "react";
 import * as THREE from "three";
 import { damp, rangeProgress, readScrollProgress, scrollState } from "@/lib/scroll-progress";
 
-const NEON = "#00f0ff";
-const VIOLET = "#7000ff";
+const NEON = "#e62222";
+const VIOLET = "#9b1a1a";
 
 /** Fades + lifts a group in/out based on a scroll sub-range. */
 function Stage({
@@ -53,7 +53,7 @@ function ServerRack({ x, ports = 6 }: { x: number; ports?: number }) {
     <group position={[x, 0, 0]}>
       <mesh>
         <boxGeometry args={[1.5, 3.4, 1.1]} />
-        <meshStandardMaterial color="#111a2e" metalness={0.7} roughness={0.35} />
+        <meshStandardMaterial color="#1a0d0d" metalness={0.7} roughness={0.35} />
       </mesh>
       {Array.from({ length: ports }).map((_, i) => (
         <mesh key={i} position={[-0.35 + (i % 2) * 0.7, 1.35 - Math.floor(i / 2) * 0.55, 0.57]}>
@@ -108,7 +108,7 @@ function EthernetCable() {
       <group ref={plug}>
         <mesh>
           <boxGeometry args={[0.42, 0.3, 0.75]} />
-          <meshStandardMaterial color="#1b2740" metalness={0.6} roughness={0.3} />
+          <meshStandardMaterial color="#1a0d0d" metalness={0.6} roughness={0.3} />
         </mesh>
         <mesh position={[0, 0, -0.4]}>
           <boxGeometry args={[0.3, 0.2, 0.1]} />
@@ -245,7 +245,7 @@ function NetworkHubStage() {
     <group ref={group}>
       <mesh>
         <cylinderGeometry args={[0.9, 0.9, 0.3, 6]} />
-        <meshStandardMaterial color="#16203a" metalness={0.8} roughness={0.25} />
+        <meshStandardMaterial color="#1a0d0d" metalness={0.8} roughness={0.25} />
       </mesh>
       <mesh>
         <cylinderGeometry args={[0.95, 0.95, 0.06, 6]} />
@@ -381,12 +381,12 @@ export default function SceneCanvas() {
       gl={{ antialias: true, alpha: true }}
       camera={{ position: [0, 0.4, 9], fov: 45 }}
     >
-      <color attach="background" args={["#0a0f1d"]} />
-      <fog attach="fog" args={["#0a0f1d", 12, 30]} />
+      <color attach="background" args={["#0a0a0a"]} />
+      <fog attach="fog" args={["#0a0a0a", 12, 30]} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[4, 6, 6]} intensity={1.1} />
       <pointLight position={[-5, 2, 4]} color={VIOLET} intensity={40} distance={20} />
-      <pointLight position={[5, -1, 5]} color={NEON} intensity={30} distance={20} />
+      <pointLight position={[5, -1, 5]} color={NEON} intensity={35} distance={20} />
 
       <ScrollTracker />
       <CameraRig />
